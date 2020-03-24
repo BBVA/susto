@@ -1,6 +1,6 @@
-<div style="text-align: center;">
-  <p><img src="docs/images/susto-792065.jpg" data-canonical-src="docs/images/susto-792065.jpg" width="480" height="309" /></p>
-</div>
+<p align="center">
+  <img src="docs/images/susto-792065.jpg" width="480" height="309" />
+</p>
 
 # SUSTO
 
