@@ -55,5 +55,5 @@ Join us in this exciting journey that starts right now. How can you help us?
 - Create tests to include in the catalog
 - Propose testing tools to include in the catalog
 
-
-[Global AppSec Amsterdam presentation] (https://github.com/BBVA/susto/blob/master/docs/images/SUSTO%20OWASP%20final.pdf) and [video] (https://www.youtube.com/watch?v=SVjbzsCe3YQ)
+<a href="https://github.com/BBVA/susto/blob/master/docs/images/SUSTO%20OWASP%20final.pdf">
+Global AppSec Amsterdam presentation</a> and <a href="https://www.youtube.com/watch?v=SVjbzsCe3YQ"> video</a>
