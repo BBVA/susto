@@ -57,7 +57,7 @@ Currently we’re working in the following SUSTO components:
 
 Join us in this exciting journey that starts right now. How can you help us?
 
-- Define use cases to resolve
+- Define use cases to resolve and <a href="/docs/docs/Overlord_requirements.md"> requirements </a>
 - Work in Fortitude to help in syntax definition
 - Work in the implementation of Overlord
 - Create tests to include in the catalog
