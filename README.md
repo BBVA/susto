@@ -41,11 +41,6 @@ SUSTO seeks to be the specification for a tool or set of tools that allow securi
   lots of time and money.
 - to assure the security in all the SDLC.
 
-Currently we’re working in the following SUSTO components:
-
-- Overlord - A tool for orchestrating tests and a syntax for defining the rules used to create the tests.
-- Community rules - A repository to publish rules so the work can be shared among the community
-- Fortitude - An Overlord mock-up to help working in the definition of the syntax used to create rules
 
 ### SUSTO, Overlord and Fortitude
 
