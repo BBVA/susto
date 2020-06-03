@@ -53,7 +53,7 @@ SUSTO seeks to be the specification for a tool or set of tools that allow securi
 Join us in this exciting journey that starts right now. How can you help us?
 
 - Define use cases to resolve and <a href="/docs/docs/Overlord_requirements.md"> requirements </a>
-- Work in Fortitude to help in syntax definition
+- Work in Fortitude to help in <a href="/fortitude/Fortitude_Objectives.md"> objectives </a> and syntax definition
 - Work in the implementation of Overlord
 - Create tests to include in the catalog
 - Propose testing tools to include in the catalog
