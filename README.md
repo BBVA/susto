@@ -47,6 +47,14 @@ Currently we’re working in the following SUSTO components:
 - Community rules - A repository to publish rules so the work can be shared among the community
 - Fortitude - An Overlord mock-up to help working in the definition of the syntax used to create rules
 
+### SUSTO, Overlord and Fortitude
+
+- SUSTO: It is the concept, the product category, the feature set and grammar definition
+- Overlord: It is the running software tool implementing SUSTO features
+- SUSTO rules: It is the definition of how to test a security control in an automated way
+- Fortitude: It is an Overlord mockup to demonstrate and discuss SUSTO and Overlord desired features and grammar 
+
+
 Join us in this exciting journey that starts right now. How can you help us?
 
 - Define use cases to resolve
@@ -57,3 +65,64 @@ Join us in this exciting journey that starts right now. How can you help us?
 
 <a href="https://github.com/BBVA/susto/blob/master/docs/images/SUSTO%20OWASP%20final.pdf">
 Global AppSec Amsterdam presentation</a> and <a href="https://www.youtube.com/watch?v=SVjbzsCe3YQ"> video</a>
+
+
+# SUSTO Breakdown
+
+SUSTO: Systematic Universal Security Testing Orchestration
+
+### Systematic:
+
+It must be systematic because humans are not. Given the overwhelming number of cases we face, our nature will look for shortcuts. But when it comes to security, shortcuts are potential risks. We tend to just prioritize using a Pareto approach, but we face a very long fat tail of small but important controls. We must leverage on tools that don’t get tired and which don’t get shortcuts  in the task of monitoring and checking systems.
+
+### Universal:
+
+It should be universal, not restricted to the most common application security testing, but covering the full stack of the systems and security controls:
+- Application security controls
+- Network security controls
+- Systems security controls
+- Data security controls
+- Identity Management controls
+- Configuration controls
+
+Universal in the security community too:
+
+- Able to be used  to test different security standards/checklists
+- Able to be shared among different institutions regardless of their sector
+- Aimed to improve collaboration between security practitioners
+- Universal mean to prove effectiveness of controls and compliance 
+- “Gold standard” to assess control equivalence between standards/checklists
+- Open to be used by GRC Security Requirements and Threat Modelling tools
+- Able to integrate with and leverage on existing specific security commercial or open-sourced products/tools to check security controls
+
+### Security
+
+To really ensure effective security that is aligned with risk analysis you need to check all the controls each time a change is made, not only before the first deployment first deployment or once/twice a year.
+
+Automatic and repeatable tests have proven to be the foundation for agile DevOps, and a security need to be able to keep up the pace
+
+#### Metasecurity
+
+A SUSTO solution must be secure itself:
+- First don’t harm. Don’t introduce new security vulnerabilities
+- By allowing a secure deployment
+- Because sharing of test rules don’t reveal security vulnerabilities
+- Traceability of all rules, parameters, tests and gathering methods from origin
+- Immutability of critical parameters for effective test integrity
+- Rich metadata
+
+### Testing
+
+Assurance must be based on testing, continuous assurance must be based on continuous testing. Furthermore, it must be traceable even after having been adapted to the systems of different organizations.
+
+### Orchestration
+
+How the information needed by the tests is obtained, processed, and interpreted must be orchestrated. The main reason for orchestrating information gathering is that the rules should be generic for the check purpose but specific and comprehensive in the tested target, without revealing details about it. 
+
+# What’s not SUSTO?
+
+- It’s not a pentesting platform
+- It’s not trying to discover new vulnerabilities but checking if all specified security controls are “up and running” and the status value in the case the control isn’t binary but gives you a score
+- It’s not a vulnerability manager
+- It’s not an built-in checker
+- It’s not restricted to just one layer: Application, Network, Containers, IdM, ...
