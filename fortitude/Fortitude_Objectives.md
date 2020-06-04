@@ -14,7 +14,7 @@ So we decided to build a mockup to detail and be able to discuss features.
 - Demo how to leverage existing tools by **easy tool chaining**
 - Demo how to **Map standards using the power of Metadata and Community**
 - Demo how to leverage the Community to achieve comprehensiveness
-- Demo how to **reuse checks across projects, organizations, industries**
+- Demo how to **reuse checks of common controls across projects, organizations, industries**
 - Demo how to **Overlord can build Community: ruleset catalog mockup**
 
 ### Integration
@@ -29,7 +29,11 @@ So we decided to build a mockup to detail and be able to discuss features.
 
 ### Control environement 
 
-TBD
+- Demo how to **Overlord can provide a better vision of the control environement and governance from threat modelling to control status and effectiveness
+- Demo how to leverage the Community to achieve comprehensiveness
+- Demo how to **reuse checks of common controls across projects, organizations, industries**
+- Demo how to notify 3rd party tools if a rule doesn't (or no longer) pass
+- Demo how to **Overlord can build Community: ruleset catalog mockup**
 
 ### Trazability
 
