@@ -4,7 +4,7 @@
 
 First interaction with different potential stakeholders showed their different points of view and understanding of the project goals and the difficulty to communicate how BBVA Innovation Labs foresee the whole project.
 
-So we decided to build a mockup to detail and be able to discuss features. Th
+So we decided to build a mockup to detail and be able to discuss features.
 
 ### Efficiency
 
