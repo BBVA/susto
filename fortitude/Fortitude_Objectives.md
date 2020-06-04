@@ -1,4 +1,4 @@
-## Rationale
+## Fortitude rationale
 
 [Operation Fortitude](https://es.wikipedia.org/wiki/Operaci%C3%B3n_Fortitude) built an army mockup to divert attention from [Operation Overlord](https://en.wikipedia.org/wiki/Operation_Overlord), our aim is not to divert from the desired features of Overlord but to try to demonstrate how it should work.
 
@@ -29,7 +29,7 @@ So we decided to build a mockup to detail and be able to discuss features.
 
 ### Control environement 
 
-- Demo how to **Overlord can provide a better vision of the control environement and governance from threat modelling to control status and effectiveness
+- Demo how to **Overlord can provide a better vision of the control environement and governance from threat modelling to control status and effectiveness**
 - Demo how to leverage the Community to achieve comprehensiveness
 - Demo how to **reuse checks of common controls across projects, organizations, industries**
 - Demo how to notify 3rd party tools if a rule doesn't (or no longer) pass
@@ -37,20 +37,28 @@ So we decided to build a mockup to detail and be able to discuss features.
 
 ### Trazability
 
-TBD
+- Demo how to **Overlord can provide exhaustive trazability of Authoring, Lineaje, Integrity, Metadata, Inputs, Used Tools, Execution, Results, ...**
+- Demo how to **manage rule authoring**
 
 ### Community
 
-TBD
+- Demo how to can be useful in the elimination of false positives through contributions from the community
+- Demo how to **Map standards using the power of Metadata and Community**
+- Demo how to leverage the Community to achieve comprehensiveness
+- Demo how to **Overlord can build Community: ruleset catalog mockup**
 
 ### Design simplicity
 
-TBD
+- Demo how to **easily write rules automating manual techniques/procedures**
+- Demo how to easily write your own checking rules 
+- Demo how to **leverage Overlord's easy to use DSL**
 
 ### Operational simplicity
 
-TBD
+- Demo how to Overlord doesn't add additional overhead to current processes
+- Demo how to **Overlord automate current manual techniques/procedures**
+- Demo how to **Overlord can build Community: ruleset catalog mockup**
 
 ### Communication
 
-TBD
+- Demo how to use rules as Definition of Done agreement mechanism shared with vulnerability "solvers"
