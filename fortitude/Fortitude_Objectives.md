@@ -8,18 +8,24 @@ So we decided to build a mockup to detail and be able to discuss features.
 
 ### Efficiency
 
-- Collaboration in the elimination of false positives through contributions from the community
-- Definition of Done agreement mechanism shared with vulnerability "solvers"
-- **Automation of checks that now must be manual**
-- **Simple tool chaining**
-- **Mapping standards using the power of Metadata and Community**
-- Leveraging the Community to achieve comprehensiveness
-- **Reuse of checks across projects, organizations, industries**
-- **Show how Overlord can build Community: ruleset catalog mockup**
+- Demo how to can be useful in the elimination of false positives through contributions from the community
+- Demo how to use rules as Definition of Done agreement mechanism shared with vulnerability "solvers"
+- Demo how to **automate checks that now must be manual**
+- Demo how to leverage existing tools by **easy tool chaining**
+- Demo how to **Map standards using the power of Metadata and Community**
+- Demo how to leverage the Community to achieve comprehensiveness
+- Demo how to **reuse checks across projects, organizations, industries**
+- Demo how to **Overlord can build Community: ruleset catalog mockup**
 
 ### Integration
 
-TBD
+- Demo how to **integrate with risk management tools**
+- Demo how to **integrate with code / dependency analysis tools**
+- Demo how to **integrate with CI/CD pipelines**
+- Demo how to leverage existing tools/commands by **easy tool chaining**
+- Demo how to **use gathering results as input to manual techniques or your own scripts**
+- Demo how to **check access profiles from systems permissions and IdM tools**
+- Demo how to notify 3rd party tools if a rule doesn't (or no longer) pass
 
 ### Control environement 
 
