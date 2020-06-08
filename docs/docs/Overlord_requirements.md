@@ -14,7 +14,9 @@
 - As a Technical Project Manager I want to find in Overlord results the information that has been obtained from my system in order to identify and correct possible problems.
 - As a Technical Project Manager I want to have the capacity to request the change of a rule due to technical exceptions (and provide the exception code). As Security Risk Manager I must have the capacity to specify the exceptions of my systems in order to comply with the rule.
 - As a Technical Project Manager I should be able to analyze how the rules are going to be evaluated, what code functions are going to be executed and, if needed, to be able to request the creation of new checking code
-- As a Rule Creator
+
+### As a Rule Creator
+
 - As a Rule Creator I want to have a rule syntax definition in order to be able to write new rules.
 - As a Rule Creator I want to have a way to specify that my rule has a specific gathering code associated to it so it can be integrated with Overlord.
 - As a Rule Creator I want to know how the rule has been expanded using the parameters. It's my debug mode.
