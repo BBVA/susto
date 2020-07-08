@@ -1,0 +1,68 @@
+Fortitude v0.1+
+
+================================================================================
+
+Repositorio:
+  * HTTPS
+  * Interfaz para publicar reglas que valide la firma
+  * En la raiz hay un fichero repo.yml con el catálogo de reglas disponibles
+    + Formato:
+      ```
+      rules:
+        - id: /* Hash del archivo .rul en hexadecimal */
+          name:
+          description:
+          metadata: { key: value, ... }
+          signature: rules/ID.gpg   /* Fichero de firma gpg que contiene el hash y nombre del fichero y la firma gpg del hash */
+          path: rules/ID.rul
+          updated: 2020-06-15T12:30:22.348Z
+      ```
+  * Un directorio rules contiene todas las reglas en sus correspondientes archivos con extensión .rul para la regla y .gpg para la firma
+
+================================================================================
+
+Fichero de regla:
+  * Archivo ZIP
+    + El primer fichero en la raiz (content-type) contiene application/Overlord-rule
+    + Directorio METAINFO
+      - manifest.yml --> con los datos de la regla
+    + En la raiz los ficheros de código de la regla
+
+================================================================================
+
+Manifest:
+  * Yaml con los datos de la regla
+  ```
+    rule:
+      name:
+      text:
+      description:
+      metadata: { key: value, ... }
+      entrypoint: "defaults to /bin/sh -c"
+      command:
+      checkParams: { key: value, ... }
+      params:
+        - param:
+          name:
+          description:
+          default:
+  ```
+
+================================================================================
+
+Local environment:
+  * Directorio ~/.overlord --> Contiene los datos de ejecución y configuración
+  * ~/.overlord/config --> Contiene la configuración del entorno donde se está ejecutando la instancia de Overlord
+  * ~/.overlord/cache/<rule> --> Cada una de las reglas tiene un directorio propio en le que se almacenan los datos de las reglas descargadas
+  * ~/.overlord/tmp --> Directorio temporal en el que las reglas pueden almacenar datos intermedios durante su ejecución
+  * ~/.overlord/logs --> Directorio donde se almacenan los logs de ejecución de las reglaslas reglas
+
+================================================================================
+
+Ejecución Overlord
+
+  * Overlord recibe un id de regla o un fichero de set (lista de ids) de pruebas. Se pueden poner variables de entorno para los parámetros de las reglas (los que no son checkparams)
+    + Resolver, descargar y descomprimir las reglas en caché
+    + Recuperar valores de los parámetros (el entorno de overlord debe poseer estos valores y pasárselos a overlord como variables de entorno) y checkparams (del fichero de regla) y preparar el contexto de ejecución
+    + Añadir las variables de entorno y el directorio expandido de la regla en el PATH
+    + Usar el entrypoint y command para ejecutar el código, redireccionando output a directorio logs

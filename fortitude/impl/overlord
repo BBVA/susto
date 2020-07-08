@@ -1,0 +1,284 @@
+#!/bin/sh
+
+VERSION=0.1
+CMD_NAME=$(basename "${BASH_SOURCE[0]}")
+
+OVERLORD_DIR=~/.overlord
+OVERLORD_CACHE="$OVERLORD_DIR/cache"
+OVERLORD_CONFIG_FILE="$OVERLORD_DIR/config"
+OVERLORD_LOGS="$OVERLORD_DIR/logs"
+OVERLORD_TMP="$OVERLORD_DIR/tmp"
+
+
+#Set defaults
+#config_file
+#exec_rule
+#exec_ruleset
+#repository=
+declare -a ruleEnvironment
+dry=false
+
+
+usage() {
+  local errMsg=$1 \
+        ret=0
+
+  [[ -n $errMsg ]] && ret=1
+
+  cat <<-EOT
+Usage: $CMD_NAME [OPTION]...
+$errMsg
+  -h, --help            display this help text and exit
+  -V, --version         display version information and exit
+  -c, --config          path to config file (default to ~/.overlord/config.yml)
+  -r, --exec-rule       url to the rule file to execute
+  -s, --exec-ruleset    url to the ruleset file to execute
+  -d, --repository      url of the rules repository
+  -e, --environment     set an environment variable for the execution
+  -n, --dry-run         show all steps but don't actually run the rule
+EOT
+
+  return $ret
+}
+
+version() { echo "$CMD_NAME: version $VERSION"; }
+
+parse() {
+
+  OPTIONS=$(getopt --options hVc:r:s:d:e:n  \
+                --longoptions help          \
+                --longoptions version       \
+                --longoptions config:       \
+                --longoptions exec-rule:    \
+                --longoptions exec-ruleset: \
+                --longoptions repository:   \
+                --longoptions environment:  \
+                --longoptions dry-run       \
+                --name $CMD_NAME            \
+                -- "$@"
+  )
+
+  [[ $? != 0 ]] && { usage ; exit 1 ; }
+
+  eval set -- $OPTIONS
+  unset OPTIONS
+
+  while true
+  do
+    case $1 in
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      -V|--version)
+        version
+        exit 0
+        ;;
+      -c|--config)
+        shift
+        config_file=$1
+        ;;
+      -r|--exec-rule)
+        shift
+        exec_rule=$1
+        ;;
+      -s|--exec-ruleset)
+        shift
+        exec_ruleset=$1
+        ;;
+      -d|--repository)
+        shift
+        repository=$1
+        ;;
+      -e|--environment)
+        shift
+        ruleEnvironment+=( "$1" )
+        ;;
+      -n|--dry-run)
+        dry=true
+        ;;
+      --)
+        shift
+        break
+        ;;
+    esac
+    shift
+  done
+declare -p ruleEnvironment
+  [ $# -gt 0 ] && { echo "Arguments are not allowed: $*" ; exit 1 ; }
+
+}
+
+init_local_env() {
+
+  [ ! -d "$OVERLORD_DIR" ] && mkdir -p "$OVERLORD_CACHE" "$OVERLORD_LOGS" "$OVERLORD_TMP"
+
+  if [ ! -r "$OVERLORD_CONFIG_FILE" ] ; then
+    cat << EOD > "$OVERLORD_CONFIG_FILE"
+# This is a sample config file
+EOD
+  fi
+}
+
+update_repo() {
+  local repoUrl=$1
+
+  echo "Updating repo configuration from $repoUrl ..."
+
+  curl -o "${OVERLORD_CACHE}/repo.yml" "${repoUrl}/repo.yml" &> /dev/null
+}
+
+get_rule() {
+  # If rule is not in cache we must download and expand it
+  local ruleId=$1 \
+        localRuleDir="$OVERLORD_CACHE/$ruleId" \
+        repoUrl=$2
+
+  echo "Checking for rule ${ruleId}..."
+  [[ -d "$localRuleDir" ]] && { echo "Rule $ruleId cached" ; return 0 ; }
+
+  echo "Downloading rule ${ruleId}..."
+  # Look in the local repo.yml file to obtain the path in the repo
+  local rulePath=$(yq r "${OVERLORD_CACHE}/repo.yml" "rules(id==$ruleId).path") \
+        signPath=$(yq r "${OVERLORD_CACHE}/repo.yml" "rules(id==$ruleId).signature")
+
+  # Exit if repo doesn't have that rule
+  [[ -z $rulePath ]] && { echo "Rule $ruleId not found at $repoUrl" ; return 1 ; }
+
+  rulePath="$repoUrl/$rulePath"
+  signPath="$repoUrl/$signPath"
+
+  # Download rule and rule's signature
+  local ruleFile="$localRuleDir/$(basename $rulePath)" \
+        ruleSign="$localRuleDir/$(basename $signPath)"
+
+  mkdir "$localRuleDir"
+  curl -o "$ruleFile" "$rulePath" &> /dev/null
+  curl -o "$ruleSign" "$signPath" &> /dev/null
+
+  # Check signature and Id
+  # TODO *********************************************************************
+  # gpg --verify-files "$localRuleDir/${ruleId}.gpg"
+  # sha256sum -c "$localRuleDir/${ruleId}.gpg"
+  # TODO *********************************************************************
+
+  # Explode the rule archive to work better with their components
+  #if [[ check_ok ]] ; then
+    echo "Unpacking rule ${ruleId}..."
+    unzip "$ruleFile" -d "$localRuleDir" &> /dev/null
+  #else
+  #  echo "Error validating rule $ruleId"
+  #  rm "$localRuleDir/${ruleId}.*"
+  #  return 2
+  #fi
+}
+
+read_metadata() {
+  local metadataFile="$OVERLORD_CACHE/$1/METAINFO/manifest.yml"
+  local -n metadata="$2"
+
+  metadata[text]=$(yq r "$metadataFile" "rule.text")
+  metadata[entrypoint]=$(yq r "$metadataFile" "rule.entrypoint")
+  metadata[command]=$(yq r "$metadataFile" "rule.command")
+  metadata[name]=$(yq r "$metadataFile" "rule.name")
+  metadata[description]=$(yq r "$metadataFile" "rule.description")
+}
+
+read_checkparams() {
+  local metadataFile="$OVERLORD_CACHE/$1/METAINFO/manifest.yml"
+  local -n params="$2"
+
+  while read item ; do
+    params+=( "$item" ) ;
+  done <<<$(yq r -j $metadataFile "rule.checkParams" | jq -r 'to_entries | .[] | .key + "=" + .value')
+}
+
+run_rule() {
+  local ruleId=$1 \
+        repoUrl=$2 \
+        ruleDir="$OVERLORD_CACHE/$ruleId"
+
+  echo "Executing rule $ruleId"
+
+  # Get rule for execution
+  get_rule "$ruleId" "$repoUrl"
+  [[ $? != 0 ]] && { echo "Can't access rule $ruleId" ; return 1 ; }
+
+  # Extract rule metadata from the manifest
+  local -A ruleMetadata
+  local -a checkParams
+
+  read_metadata "$ruleId" "ruleMetadata"
+  read_checkparams "$ruleId" "checkParams"
+
+  # include check param's values to the environment
+  checkParams+=("${ruleEnvironment[@]}")
+  # Add rule cache directory to PATH
+  checkParams+=("${ruleDir}:$PATH")
+  # Execute rule with parameters
+declare -p checkParams
+  echo "Environment $(printf '%s' "${checkParams[@]}")"
+  #echo "Environment ${checkParams[@]}"
+  echo "Entripoint ${ruleMetadata[entrypoint]}"
+  echo "Command $ruleDir/${ruleMetadata[command]}"
+  env -i $(echo "${checkParams[@]}") ${ruleMetadata[entrypoint]} ${ruleMetadata[command]}
+  #env -i "${checkParams[@]}" ${ruleMetadata[entrypoint]} $ruleDir/${ruleMetadata[command]}
+}
+
+run_ruleset() {
+  local rulesetFile=$1 \
+        repoUrl=$2
+
+  # We need an existing rules file
+  [ ! -r "$rulesetFile" ] && { echo "Can't access rules file $rulesetFile" ; exit 1 ; }
+
+  cat "$rulesetFile" | while read ruleId ; do [[ ! $ruleId == \#* ]] && run_rule "$ruleId" "$repoUrl"; done
+
+}
+
+parse "$@"
+
+# We need something to execute
+if [[ -z "$exec_rule" && -z "$exec_ruleset" ]] ; then
+  echo "No rule nor ruleset given. Nothing to do"
+  exit 1
+fi
+
+# But noth both
+if [[ -n "$exec_rule" && -n "$exec_ruleset" ]] ; then
+  echo "Specify one of rule or ruleset but no both"
+  exit 1
+fi
+
+# Initialize local environment if not exist
+init_local_env
+
+# Load config
+[[ -z "$config_file" ]] && config_file=$OVERLORD_CONFIG_FILE
+
+if [[ -r "$config_file" ]] ; then
+  source "$config_file"
+elif [[ -e "$config_file" ]] ; then
+  echo "Can't access config file $config_file"
+  exit 1
+fi
+
+# We need a repo to download rules from
+[[ -z "$repository" ]] && { echo "Specify one rule repository" ; exit 1 ; }
+
+update_repo "$repository"
+
+cat <<-EOT
+  Command=$CMD_NAME
+  Version=$VERSION
+  Config=$config_file
+  Rule=$exec_rule
+  Rule Set=$exec_ruleset
+  Repository=$repository
+  Dry Run=$dry
+  Rule Environment= "${ruleEnvironment[@]}"
+EOT
+
+[[ -n "$exec_rule" ]] && run_rule "$exec_rule" "$repository"
+
+[[ -n "$exec_ruleset" ]] && run_ruleset "$exec_ruleset" "$repository"

@@ -1,0 +1,11 @@
+rules:
+  - id: 3c23db01132971483016b61caaf4a6392612df31804936f7061fafbab06c93d1
+    name: Check allowed connectivity
+    description: Check that only the allowed endpoints can reach the target
+    metadata:
+      version: 0.2
+      target: database
+      kind: network
+    path: rules/hello_world-0.2.rul
+    signature: rules/hello_world-0.2.gpg
+    updated: 2020-07-08T15:46:19.348Z

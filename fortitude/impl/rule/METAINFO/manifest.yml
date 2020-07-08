@@ -1,0 +1,19 @@
+rule:
+  name: Hello World
+  text: Only %source% is allowed to connect to %target% with %level%
+  description: This rule checks that only target systems are allowed to connect to target system
+  metadata:
+    version: 0.2
+    target: database
+    kind: network
+  entrypoint: /bin/sh -c
+  command: main.sh
+  checkParams:
+    level: cuidadiiiiin!!!!
+  params:
+    - name: source
+      description:  The source systems allowed to connect. Can be a comma separated list of names, IP addresses or CIDRs
+      default: empty
+    - name: target
+      description:  The terget system. Can be a name, an IP address or a CIDR
+      default: empty
