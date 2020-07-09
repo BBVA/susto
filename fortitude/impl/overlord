@@ -15,7 +15,7 @@ OVERLORD_TMP="$OVERLORD_DIR/tmp"
 #exec_rule
 #exec_ruleset
 #repository=
-declare -a ruleEnvironment
+declare -a overlordEnvironment
 dry=false
 
 
@@ -92,7 +92,7 @@ parse() {
         ;;
       -e|--environment)
         shift
-        ruleEnvironment+=( "$1" )
+        overlordEnvironment+=( "$1" )
         ;;
       -n|--dry-run)
         dry=true
@@ -104,7 +104,7 @@ parse() {
     esac
     shift
   done
-declare -p ruleEnvironment
+
   [ $# -gt 0 ] && { echo "Arguments are not allowed: $*" ; exit 1 ; }
 
 }
@@ -211,18 +211,30 @@ run_rule() {
   read_metadata "$ruleId" "ruleMetadata"
   read_checkparams "$ruleId" "checkParams"
 
-  # include check param's values to the environment
-  checkParams+=("${ruleEnvironment[@]}")
-  # Add rule cache directory to PATH
-  checkParams+=("${ruleDir}:$PATH")
-  # Execute rule with parameters
-declare -p checkParams
-  echo "Environment $(printf '%s' "${checkParams[@]}")"
-  #echo "Environment ${checkParams[@]}"
-  echo "Entripoint ${ruleMetadata[entrypoint]}"
-  echo "Command $ruleDir/${ruleMetadata[command]}"
-  env -i $(echo "${checkParams[@]}") ${ruleMetadata[entrypoint]} ${ruleMetadata[command]}
-  #env -i "${checkParams[@]}" ${ruleMetadata[entrypoint]} $ruleDir/${ruleMetadata[command]}
+  # Add rule cache directory to PATH, create UUID identifyng the execution, create and pass tmp directory for the execution
+  # Prepare rule execution
+  #   * Create executionID, tmp dir and the environment for the execution of the rule.
+  local executionId=$(uuidgen --time)
+  local tmpdir=$(mktemp --directory --tmpdir=$OVERLORD_TMP tmp.$executionId.XXXXXXXXXX)
+  local -a ruleEnv
+
+  echo -e "Starting execution for rule: $ruleId\nExecutionID: $executionId\nStart: $(date)\n" > "$OVERLORD_LOGS/$executionId.log"
+
+  # Include the environment given to overlord.
+  echo -e "Environment params: ${overlordEnvironment[@]}\n" >> "$OVERLORD_LOGS/$executionId.log"
+  ruleEnv+=("${overlordEnvironment[@]}")
+
+  # Include check param's values to the rule environment
+  echo -e "Rule params: ${checkParams[@]}\n" >> "$OVERLORD_LOGS/$executionId.log"
+  ruleEnv+=("${checkParams[@]}")
+
+  # Include extended PATH and tmp directory
+  echo -e "Execution tmp dir: $tmpdir\n" >> "$OVERLORD_LOGS/$executionId.log"
+  ruleEnv+=("PATH=${ruleDir}:$PATH")
+  ruleEnv+=("TMPDIR=$tmpdir")
+
+  # Execute rule
+  env -i $(echo "${ruleEnv[@]}") ${ruleMetadata[entrypoint]} ${ruleMetadata[command]} >> "$OVERLORD_LOGS/$executionId.log"
 }
 
 run_ruleset() {
@@ -276,7 +288,7 @@ cat <<-EOT
   Rule Set=$exec_ruleset
   Repository=$repository
   Dry Run=$dry
-  Rule Environment= "${ruleEnvironment[@]}"
+  Rule Environment= "${overlordEnvironment[@]}"
 EOT
 
 [[ -n "$exec_rule" ]] && run_rule "$exec_rule" "$repository"

@@ -26,7 +26,7 @@ Fichero de regla:
     + El primer fichero en la raiz (content-type) contiene application/Overlord-rule
     + Directorio METAINFO
       - manifest.yml --> con los datos de la regla
-    + En la raiz los ficheros de código de la regla
+    + En la raiz los ficheros de código de la regla (este directorio se añade al PATH en ejecución)
 
 ================================================================================
 
@@ -40,10 +40,9 @@ Manifest:
       metadata: { key: value, ... }
       entrypoint: "defaults to /bin/sh -c"
       command:
-      checkParams: { key: value, ... }
+      checkParams: { name: value, ... }
       params:
-        - param:
-          name:
+        - name:
           description:
           default:
   ```
