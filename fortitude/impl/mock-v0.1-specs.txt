@@ -4,17 +4,17 @@ Fortitude v0.1+
 
 Repositorio:
   * HTTPS
-  * Interfaz para publicar reglas que valide la firma
+  * Faltaría interfaz para publicar reglas que valide la firma
   * En la raiz hay un fichero repo.yml con el catálogo de reglas disponibles
     + Formato:
       ```
       rules:
-        - id: /* Hash del archivo .rul en hexadecimal */
+        - id: /* ¿Podría ser distinto del hash? como archivo está firmado valdría un UUID */
           name:
           description:
           metadata: { key: value, ... }
-          signature: rules/ID.gpg   /* Fichero de firma gpg que contiene el hash y nombre del fichero y la firma gpg del hash */
-          path: rules/ID.rul
+          signature: rules/rule.gpg   /* Fichero de firma gpg que contiene el hash y nombre del fichero y la firma gpg del hash */
+          path: rules/rule.rul
           updated: 2020-06-15T12:30:22.348Z
       ```
   * Un directorio rules contiene todas las reglas en sus correspondientes archivos con extensión .rul para la regla y .gpg para la firma
@@ -23,7 +23,7 @@ Repositorio:
 
 Fichero de regla:
   * Archivo ZIP
-    + El primer fichero en la raiz (content-type) contiene application/Overlord-rule
+    + El primer fichero en la raiz magic number(content-type) contiene application/Overlord-rule
     + Directorio METAINFO
       - manifest.yml --> con los datos de la regla
     + En la raiz los ficheros de código de la regla (este directorio se añade al PATH en ejecución)
@@ -60,8 +60,8 @@ Local environment:
 
 Ejecución Overlord
 
-  * Overlord recibe un id de regla o un fichero de set (lista de ids) de pruebas. Se pueden poner variables de entorno para los parámetros de las reglas (los que no son checkparams)
-    + Resolver, descargar y descomprimir las reglas en caché
+  * Overlord recibe un id de regla o un fichero de set (lista de ids) de pruebas. Se podrían poner variables de entorno para los parámetros de las reglas (los que no son checkparams)
+    + Resolver, descargar, validar y descomprimir las reglas en caché
     + Recuperar valores de los parámetros (el entorno de overlord debe poseer estos valores y pasárselos a overlord como variables de entorno) y checkparams (del fichero de regla) y preparar el contexto de ejecución
     + Añadir las variables de entorno y el directorio expandido de la regla en el PATH
     + Usar el entrypoint y command para ejecutar el código, redireccionando output a directorio logs
