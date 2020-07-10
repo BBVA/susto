@@ -1,0 +1,12 @@
+Starting execution for rule: 3c23db01132971483016b61caaf4a6392612df31804936f7061fafbab06c93d1
+ExecutionID: d96c97f4-c297-11ea-b7cc-ec21e5089c1f
+Start: vie jul 10 12:26:43 CEST 2020
+
+Environment params: source=servers target=mydatabase
+
+Rule params: level=cuidadiiiiin!!!!
+
+Execution tmp dir: /home/hjhurtado/.overlord/tmp/tmp.d96c97f4-c297-11ea-b7cc-ec21e5089c1f.qdlPBW0Ii7
+
+  Hello World!
+  From servers to mydatabase with cuidadiiiiin!!!!

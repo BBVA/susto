@@ -235,6 +235,8 @@ run_rule() {
 
   # Execute rule
   env -i $(echo "${ruleEnv[@]}") ${ruleMetadata[entrypoint]} ${ruleMetadata[command]} >> "$OVERLORD_LOGS/$executionId.log"
+
+  # Sign the results log
 }
 
 run_ruleset() {
