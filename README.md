@@ -26,7 +26,7 @@ software, they include, too, the infrastructure that supports them and the
 security mechanisms associated, and both come as software too. SUSTO extends the
 ASTO concept by including not only the application but the infrastructure that
 gives support to it and pretends to cover the whole Systems Development Life
-Cycle (SDLC.)
+Cycle (SDLC).
 
 SUSTO seeks to be the specification for a tool or set of tools that allow security teams:
 
@@ -44,10 +44,10 @@ SUSTO seeks to be the specification for a tool or set of tools that allow securi
 
 ### SUSTO, Overlord and Fortitude
 
-- SUSTO: It is the concept, the product category, the feature set and grammar definition
-- Overlord: It is the running software tool implementing SUSTO features
-- SUSTO rules: It is the definition of how to test a security control in an automated way
-- Fortitude: It is an Overlord mockup to demonstrate and discuss SUSTO and Overlord desired features and grammar 
+- SUSTO: the concept, the product category, the feature set and grammar definition
+- Overlord: the running software tool implementing SUSTO features
+- SUSTO rules: the definition of how to test a security control in an automated way
+- Fortitude: an Overlord mockup to demonstrate and discuss SUSTO and Overlord desired features and grammar 
 
 
 Join us in this exciting journey that starts right now. How can you help us?
@@ -68,7 +68,7 @@ SUSTO: Systematic Universal Security Testing Orchestration
 
 ### Systematic:
 
-It must be systematic because humans are not. Given the overwhelming number of cases we face, our nature will look for shortcuts. But when it comes to security, shortcuts are potential risks. We tend to just prioritize using a Pareto approach, but we face a very long fat tail of small but important controls. We must leverage on tools that don’t get tired and which don’t get shortcuts  in the task of monitoring and checking systems.
+It must be systematic because humans are not. Given the overwhelming number of cases we face, our nature will look for shortcuts. But when it comes to security, shortcuts are potential risks. We tend to just prioritize using a Pareto approach, but we face a very long fat tail of small but important controls. We must leverage tools that don’t get tired and which don’t get shortcuts  in the task of monitoring and checking systems.
 
 ### Universal:
 
@@ -88,7 +88,7 @@ Universal in the security community too:
 - Universal mean to prove effectiveness of controls and compliance 
 - “Gold standard” to assess control equivalence between standards/checklists
 - Open to be used by GRC Security Requirements and Threat Modelling tools
-- Able to integrate with and leverage on existing specific security commercial or open-sourced products/tools to check security controls
+- Able to integrate with and leverage existing specific security commercial or open-sourced products/tools to check security controls
 
 ### Security
 
@@ -114,10 +114,11 @@ Assurance must be based on testing, continuous assurance must be based on contin
 
 How the information needed by the tests is obtained, processed, and interpreted must be orchestrated. The main reason for orchestrating information gathering is that the rules should be generic for the check purpose but specific and comprehensive in the tested target, without revealing details about it. 
 
-# What’s not SUSTO?
+# What SUSTO is not
 
-- It’s not a pentesting platform
-- It’s not trying to discover new vulnerabilities but checking if all specified security controls are “up and running” and the status value in the case the control isn’t binary but gives you a score
-- It’s not a vulnerability manager
-- It’s not an built-in checker
-- It’s not restricted to just one layer: Application, Network, Containers, IdM, ...
+SUSTO is not...
+- a pentesting platform
+- trying to discover new vulnerabilities but checking if all specified security controls are “up and running” and the status value in the case the control isn’t binary but gives you a score
+- a vulnerability manager
+- a built-in checker
+- restricted to just one layer: Application, Network, Containers, IdM, ...
