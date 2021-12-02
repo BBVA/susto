@@ -54,7 +54,7 @@ Join us in this exciting journey that starts right now. How can you help us?
 
 - Define use cases to resolve and <a href="/docs/docs/Overlord_requirements.md"> requirements </a>
 - Work in Fortitude to help with <a href="/fortitude/Fortitude_Objectives.md"> objectives </a> and syntax definition
-- Work in the implementation of Overlord
+- Work in the implementation of <a href="https://github.com/BBVA/Overlord"> Overlord </a>
 - Create tests to include in the catalog
 - Propose testing tools to include in the catalog
 
