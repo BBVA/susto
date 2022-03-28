@@ -58,7 +58,7 @@ Join us in this exciting journey that starts right now. How can you help us?
 - Create tests to include in the catalog
 - Propose testing tools to include in the catalog
 
-SUSTO PoC Open Security Summit <a href="https://www.youtube.com/watch?v=L3aShr2NyEU"> presentation </a>
+SUSTO PoC Open Security Summit <a href="https://www.youtube.com/watch?v=L3aShr2NyEU"> video </a> and <a href="https://github.com/BBVA/susto/blob/master/docs/docs/OSS-Open%20Security%20Control%20Testing%20at%20Scale.pdf"> slides </a>
 <a href="https://github.com/BBVA/susto/blob/master/docs/images/SUSTO%20OWASP%20final.pdf">
   
 Global AppSec Amsterdam presentation</a> and <a href="https://www.youtube.com/watch?v=SVjbzsCe3YQ"> video</a> or a <a href="https://github.com/BBVA/susto/blob/master/docs/docs/SUSTO%20(3).pdf"> more recent one</a> from a DevSecOps Spain webinar 
